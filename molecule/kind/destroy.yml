@@ -7,8 +7,12 @@
     - community.kubernetes
 
   tasks:
+    - name: print config dir
+      debug:
+        var: config_dir
+
     - name: Destroy test kind cluster
-      command: kind delete cluster --name osdk-test --kubeconfig {{ kubeconfig }}
+      command: kind delete cluster --name osdk-test-2 --kubeconfig {{ kubeconfig }}
 
     - name: Unset pull policy
       command: '{{ kustomize }} edit remove patch pull_policy/{{ operator_pull_policy }}.yaml'

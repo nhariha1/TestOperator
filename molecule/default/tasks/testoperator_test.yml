@@ -1,19 +1,21 @@
 ---
-- name: Create the apps.example.com/v1alpha1.Testoperator
-  k8s:
-    state: present
-    namespace: '{{ namespace }}'
-    definition: "{{ lookup('template', '/'.join([samples_dir, cr_file])) | from_yaml }}"
-    wait: yes
-    wait_timeout: 300
-    wait_condition:
-      type: Running
-      reason: Successful
-      status: "True"
-  vars:
-    cr_file: 'apps_v1alpha1_testoperator.yaml'
+- name: Converge
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - community.kubernetes
 
-- name: Add assertions here
-  assert:
-    that: false
-    fail_msg: FIXME Add real assertions for your operator
+  tasks:
+    - name: Create the samples app
+      k8s:
+        state: present
+        definition: "{{ lookup('template', '/'.join([samples_dir, cr_file])) | from_yaml }}"
+        wait: yes
+      vars:
+        cr_file: 'apps_v1alpha1_testoperator.yaml'
+
+    - name: Add assertions here
+      assert:
+        that: false
+        fail_msg: FIXME Add real assertions for your operator
