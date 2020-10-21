@@ -1,0 +1,6 @@
+apiVersion: apps.example.com/v1alpha1
+kind: Testoperator
+metadata:
+  name: testoperator-sample
+spec:
+  size: 1 

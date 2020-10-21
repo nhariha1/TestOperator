@@ -1,0 +1,8 @@
+domain: example.com
+layout: ansible.sdk.operatorframework.io/v1
+projectName: test-operator
+resources:
+- group: apps
+  kind: Testoperator
+  version: v1alpha1
+version: 3-alpha

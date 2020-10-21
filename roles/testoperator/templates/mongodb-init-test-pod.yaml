@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo-conn-test
+  namespace: "{{ mongodb.namespace }}"
+  labels:
+    app: mongo-conn-test
+spec:
+  initContainers:
+  - name: test-mongo-conn
+    image: alpine
+    command: ["sh", "-c", "nc -zv {{ mongodb.svcname }}-svc.{{ mongodb.namespace }}.svc.cluster.local:27017"]
+  containers:
+  - name: mongo-shell
+    image: mongo
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo 'mongo is ready'; sleep 1000;done"]
+  restartPolicy: OnFailure

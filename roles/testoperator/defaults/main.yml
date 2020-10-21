@@ -1,0 +1,7 @@
+---
+mongodb:
+  namespace: mongodb-op
+  svcname: example-scram-mongodb
+
+redis:
+  namespace: redis-op

@@ -1,0 +1,85 @@
+---
+- name: create mongo namespace
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongodb-ns.yaml') | from_yaml }}"
+    wait: yes
+
+- name: create redis namespace
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redis-ns.yaml') | from_yaml }}"
+    wait: yes
+
+- name: create mongo operator crd
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongodb.com_mongodb_crd.yaml') | from_yaml }}"
+
+- name: create mongo operator role
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongo-op_role.yaml') | from_yaml }}"
+
+- name: create mongo operator role binding
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongo-op_role_binding.yaml') | from_yaml }}"
+
+- name: create mongo operator sa
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongo-op_service_account.yaml') | from_yaml }}"
+
+- name: create mongo operator
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongo-op_operator.yaml') | from_yaml }}"
+    wait: yes
+
+- name: create redis operator crd
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redis.opstreelabs.in_redis_crd.yaml') | from_yaml }}"
+
+- name: create redis operator role
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redis-op_role.yaml') | from_yaml }}"
+
+- name: create redis operator role binding
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redis-op_role_binding.yaml') | from_yaml }}"
+
+- name: create redis operator sa
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redis-op_service_account.yaml') | from_yaml }}"
+
+- name: create redis operator
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redis-op_operator.yaml') | from_yaml }}"
+    wait: yes
+
+- name: create mongodb scram secret
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongodb_scram_secret.yaml') | from_yaml }}"
+    wait: yes
+
+- name: create mongodb
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongodb.com_v1_mongodb_scram_cr.yaml') | from_yaml }}"
+
+- name: create redis standalone
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redis-standalone-example.yaml') | from_yaml }}"
+
+- name: wait for mongo to come up
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'mongodb-init-test-pod.yaml') | from_yaml }}"
