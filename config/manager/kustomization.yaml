@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: nhariha1/test-operator
-  newTag: 0.0.20
+  newTag: 0.0.23

@@ -3,4 +3,9 @@ kind: Testoperator
 metadata:
   name: testoperator-sample
 spec:
-  size: 1 
+  mongodb:
+    namespace: mongodb-op3
+    svcname: example-scram-mongo
+  redis:
+    namespace: redis-op3
+    svcname: opstree-red

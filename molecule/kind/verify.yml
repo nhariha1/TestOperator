@@ -1,0 +1,38 @@
+---
+- name: Verify
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - community.kubernetes
+
+  vars:
+    ctrl_label: control-plane=controller-manager
+    logs_pod_name: mongo-conn-test
+    logs_ns_name: mongodb-op
+    mongodb:
+      namespace: mongodb-op3
+      podname: mongo-test
+    redis:
+      namespace: redis-op3
+      podname: redis-test-conn
+
+  tasks:
+    - name: Retrieve mongo conn test Pod logs
+      k8s_log:
+        name: '{{ mongodb.podname }}'
+        namespace: '{{ mongodb.namespace }}'
+      register: mongo_debug_logs
+
+    - name: Retrieve redis conn test Pod logs
+      k8s_log:
+        name: '{{ redis.podname }}'
+        namespace: '{{ redis.namespace }}'
+      register: redis_debug_logs
+
+    - name: Output gathered logs
+      debug:
+        var: item
+      with_items:
+        - '{{ mongo_debug_logs.log_lines | trim }}'
+        - '{{ redis_debug_logs.log_lines | trim }}'

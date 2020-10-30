@@ -5,3 +5,4 @@ mongodb:
 
 redis:
   namespace: redis-op
+  svcname: opstree-redis

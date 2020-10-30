@@ -82,4 +82,9 @@
 - name: wait for mongo to come up
   community.kubernetes.k8s:
     state: present
-    definition: "{{ lookup('template', 'mongodb-init-test-pod.yaml') | from_yaml }}"
+    definition: "{{ lookup('template', 'mongotest-conn.yaml') | from_yaml }}"
+
+- name: wait for redis to come up
+  community.kubernetes.k8s:
+    state: present
+    definition: "{{ lookup('template', 'redistest-conn.yaml') | from_yaml }}"

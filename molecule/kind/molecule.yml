@@ -3,9 +3,9 @@ dependency:
   name: galaxy
 driver:
   name: delegated
-#lint: |
-#  set -e
-#  yamllint -d "{extends: relaxed, rules: {line-length: {max: 120}}}" .
+lint: |
+ set -e
+ yamllint -d "{extends: relaxed, rules: {line-length: {max: 120}}}" .
 platforms:
   - name: cluster
     groups:
@@ -14,7 +14,7 @@ provisioner:
   name: ansible
   playbooks:
     prepare: ../default/prepare.yml
-    verify: ../default/verify.yml
+    verify: verify.yml
   lint: |
     set -e
     ansible-lint
@@ -28,7 +28,7 @@ provisioner:
         config_dir: ${MOLECULE_PROJECT_DIRECTORY}/config
         samples_dir: ${MOLECULE_PROJECT_DIRECTORY}/config/samples
         project_dir: ${MOLECULE_PROJECT_DIRECTORY}
-        operator_image: nhariha1/test-operator:0.0.20
+        operator_image: nhariha1/test-operator:0.0.23
         operator_pull_policy: "IfNotPresent"
         kubeconfig: "{{ lookup('env', 'KUBECONFIG') }}"
         kustomize: ${KUSTOMIZE_PATH:-kustomize}

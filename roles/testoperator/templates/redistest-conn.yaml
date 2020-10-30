@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-test-conn
+  namespace: {{ redis.namespace }}
+  labels:
+    app: redis-conn-test
+spec:
+  initContainers:
+  - name: test-mongo-conn
+    image: redis
+    command: ["sh", "-c", "redis-cli -h {{ redis.svcname }}.{{ redis.namespace }}.svc.cluster.local -p 6379"]
+  containers:
+  - name: redis-shell
+    image: redis
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo 'redis is ready'; sleep 1000;done"]
+  restartPolicy: OnFailure
