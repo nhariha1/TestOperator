@@ -3,6 +3,7 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  become: true
 
   tasks:
     - name: Build operator image
@@ -17,7 +18,7 @@
         force_source: yes
 
     - name: Load image into kind cluster
-      command: sudo kind load docker-image --name osdk-test-2 '{{ operator_image }}'
+      command: kind load docker-image --name osdk-test-2 '{{ operator_image }}'
       register: result
       changed_when: '"not yet present" in result.stdout'
 

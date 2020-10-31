@@ -3,6 +3,7 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
 
   tasks:
     - name: Ensure operator image is set

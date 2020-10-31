@@ -3,6 +3,7 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
   collections:
     - community.kubernetes
 
@@ -12,7 +13,7 @@
         var: config_dir
 
     - name: Destroy test kind cluster
-      command: sudo kind delete cluster --name osdk-test-2 --kubeconfig {{ kubeconfig }}
+      command: kind delete cluster --name osdk-test-2 --kubeconfig {{ kubeconfig }}
 
     - name: Unset pull policy
       command: '{{ kustomize }} edit remove patch pull_policy/{{ operator_pull_policy }}.yaml'

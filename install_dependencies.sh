@@ -1,32 +1,15 @@
 #!/bin/bash
 
-# install python3.7
-sudo apt-get install --yes wget build-essential checkinstall
-sudo apt-get install --yes libreadline-gplv2-dev libncursesw5-dev libssl-dev \
-    libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
-cd /usr/src
-sudo wget https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz
-sudo tar xzf Python-3.7.9.tgz
-cd Python-3.7.9
-sudo ./configure --enable-optimizations
-sudo make altinstall
-
-# make python 3.7 python3
-sudo rm -f /usr/bin/python3
-sudo ln -s /usr/local/bin/python3.7 /usr/bin/python3
-# we need this too for molecule installation later
-sudo ln -s /usr/share/pyshared/lsb_release.py /usr/local/lib/python3.7/site-packages/lsb_release.py
-
 # install ansible
 sudo apt update
-sudo apt install software-properties-common
-sudo apt-add-repository --yes --update ppa:ansible/ansible
-sudo apt install --yes ansible
+sudo apt-get install --yes python3-pip
+sudo pip3 install ansible
+sudo apt install --yes python3-docker
 
 # install docker
 # setup docker repo
 sudo apt-get update
-sudo apt-get install \
+sudo apt-get install --yes \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -52,6 +35,17 @@ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.9.0/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 
+# install kustomize
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+sudo mv kustomize /usr/local/bin/kustomize
+
 # install molecule
+sudo apt-get install -y libffi-dev git
 sudo apt-get install -y python3-pip libssl-dev
 sudo python3 -m pip install "molecule[ansible]"
+
+# install oc cli
+wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+tar xvzf openshift*.tar.gz
+sudo mv openshift-origin-client-tools*/oc /usr/local/bin/oc
+sudo pip3 install openshift
