@@ -49,3 +49,5 @@ wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-ori
 tar xvzf openshift*.tar.gz
 sudo mv openshift-origin-client-tools*/oc /usr/local/bin/oc
 sudo pip3 install openshift
+
+## patch-1
