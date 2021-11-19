@@ -50,4 +50,5 @@ tar xvzf openshift*.tar.gz
 sudo mv openshift-origin-client-tools*/oc /usr/local/bin/oc
 sudo pip3 install openshift
 
+## patch-1
 ## apatch-2
